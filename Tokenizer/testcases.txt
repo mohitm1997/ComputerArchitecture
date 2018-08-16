@@ -1,0 +1,143 @@
+Mohit Mori
+CS211
+Tokenizer
+
+Test Cases:
+
+Valid Tokens for every type:
+Input: "0x12abcf 0Xabc153 0176321 198356 0.234 12.3E-24 5E15 0"
+Expected output: 
+Hex         0x12abcf
+Hex         0Xabc153
+Octal       0176321
+Decimal     198356
+Float       0.234
+Float       12.3E-24
+Float       5E15
+Zero        0
+
+Unfinished Floats:
+Input: "1. 1.2E 1.6e- 1.e5 .E5"
+Expected output:
+Decimal     1
+Malformed   [0x2e]
+Float       1.2
+Malformed   [0x45]
+Float       1.6
+Malformed   [0x65]
+Malformed   [0x2d]
+Decimal     1
+Malformed   [0x2e]
+Malformed   [0x65]
+Decimal     5
+Malformed   [0x2e]
+Malformed   [0x45]
+Decimal     5
+
+Unfinished Hex/Invalid hex:
+Input: "0x 0xG"
+Expected output:
+Zero        0
+Malformed   [0x78]
+Zero        0
+Malformed   [0x78]
+Malformed   [0x47]
+
+Valid tokens with malformed characters in between:
+Input: "5723tahfn0xa1b3c5d2ef04329.6E-6ee"
+Expected output:
+Decimal     5723
+Malformed   [0x74]
+Malformed   [0x61]
+Malformed   [0x68]
+Malformed   [0x66]
+Malformed   [0x6e]
+Hex         0xa1b3c5d2e
+Malformed   [0x67]
+Octal       0432
+Float       9.6E-6
+Malformed   [0x65]
+Malformed   [0x65]
+
+Input: "4.3.7.4E-12.3e+12.2"
+Expected output:
+Float       4.3
+Malformed   [0x2e]
+Float       7.4E-12
+Malformed   [0x2e]
+Decimal     3e+12
+Malformed   [0x2e]
+Decimal     2
+
+Many invalid characters in a row:
+Input: "0xa123b0f theseareabunchofinvalidcharacters01672"
+Expected output:
+Hex         0xa123b0f
+Malformed   [0x74]
+Malformed   [0x68]
+Malformed   [0x65]
+Malformed   [0x73]
+Malformed   [0x65]
+Malformed   [0x61]
+Malformed   [0x72]
+Malformed   [0x65]
+Malformed   [0x61]
+Malformed   [0x62]
+Malformed   [0x75]
+Malformed   [0x6e]
+Malformed   [0x63]
+Malformed   [0x68]
+Malformed   [0x6f]
+Malformed   [0x66]
+Malformed   [0x69]
+Malformed   [0x6e]
+Malformed   [0x76]
+Malformed   [0x61]
+Malformed   [0x6c]
+Malformed   [0x69]
+Malformed   [0x64]
+Malformed   [0x63]
+Malformed   [0x68]
+Malformed   [0x61]
+Malformed   [0x72]
+Malformed   [0x61]
+Malformed   [0x63]
+Malformed   [0x74]
+Malformed   [0x65]
+Malformed   [0x72]
+Malformed   [0x73]
+Octal       01672
+
+Valid and Malformed Tokens:
+Input: "1.2E+6 607 tt 0X12d 00000t0011.6.7 ,./1001.E-34.e abd @! 983.54 09 01932"
+Expected output:
+Float       1.2E+6
+Decimal     607
+Malformed   [0x74]
+Malformed   [0x74]
+Hex         0X12d
+Octal       00000
+Malformed   [0x74]
+Octal       0011
+Malformed   [0x2e]
+Float       6.7
+Malformed   [0x2c]
+Malformed   [0x2e]
+Malformed   [0x2f]
+Decimal     1001
+Malformed   [0x2e]
+Malformed   [0x45]
+Malformed   [0x2d]
+Decimal     34
+Malformed   [0x2e]
+Malformed   [0x65]
+Malformed   [0x61]
+Malformed   [0x62]
+Malformed   [0x64]
+Malformed   [0x40]
+Malformed   [0x21]
+Float       983.54
+Zero        0
+Decimal     9
+Octal       01
+Decimal     932
